@@ -2,6 +2,8 @@
 
 import { parse } from 'path'
 import React, { FormEvent, useState } from 'react'
+import { scrapeAndStoreProduct } from '../lib/actions'
+import { Cheerio } from 'cheerio'
 
 const isValidAmazonProductURL = (url: string): boolean => {
     try {
@@ -27,7 +29,7 @@ const SearchBar = () => {
     const [searchPrompt, setSearchPrompt] = useState('');
     const [isLoading, setIsloading] = useState(false)
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const isValidLink = isValidAmazonProductURL(searchPrompt)
@@ -37,8 +39,9 @@ const SearchBar = () => {
         try {
             setIsloading(true)
 
-            //scrape the product page
-            
+            //  Scrape the product page
+            const product = await scrapeAndStoreProduct(searchPrompt)
+                        
         } catch (error) {
             console.error(error)
         } finally {
