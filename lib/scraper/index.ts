@@ -1,6 +1,7 @@
 import axios from "axios"
 import * as cheerio from "cheerio"
 import { extractCurrency, extractDescription, extractPrice } from "../utils"
+import { PriceHistoryItem } from "../../types"
 
 export async function scrapeAmazonProduct(url: string){
     if(!url) return
@@ -84,7 +85,7 @@ export async function scrapeAmazonProduct(url: string){
             title,
             currentPrice: Number(currentPrice) || Number(originalPrice),
             originalPrice: Number(originalPrice) || Number(currentPrice),
-            priceHistory: [],
+            priceHistory: [] as PriceHistoryItem[],
             discountRate: Number(discountRate),
             category,
             ratingCount,
