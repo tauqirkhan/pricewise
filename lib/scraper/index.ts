@@ -44,7 +44,7 @@ export async function scrapeAmazonProduct(url: string){
             $('.a-size-base.a-color-price')
         );
 
-        const outOfStock = $('#availability span').text().trim().toLowerCase() === 'currently unavailable';
+        const outOfStock = ($('#availability span').text().trim().toLowerCase() === 'currently unavailable');
 
         const images = 
             $('#imgBlkFront').attr('data-a-dynamic-image') || 
@@ -66,7 +66,7 @@ export async function scrapeAmazonProduct(url: string){
         const ratingStars = $('#acrPopover .a-size-base.a-color-base').eq(0).text().trim()
 
         const description = extractDescription($)
-
+        
         // console.log("title: ", title)
         // console.log("currentPrice: ", currentPrice)
         // console.log("originalPrice: ", originalPrice)

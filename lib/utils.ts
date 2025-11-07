@@ -58,6 +58,10 @@ export function extractCurrency(element: Cheerio<Element>) {
   return currencyText ? currencyText : "";
 }
 
+
+// !!! Need to fix this !!!
+
+
 // Extracts description from two possible elements from amazon
 export function extractDescription($: CheerioAPI) {
   // these are possible elements holding description of the product

@@ -10,7 +10,7 @@ export async function scrapeAndStoreProduct(productUrl: string){
     if(!productUrl) return;
 
     try {  
-        connectToDB()
+        await connectToDB()
   
         const scrapeProduct = await scrapeAmazonProduct(productUrl)
 
@@ -54,13 +54,54 @@ export async function scrapeAndStoreProduct(productUrl: string){
 
 export async function getProductById(productId: string){
     try {
-        connectToDB()
+        await connectToDB()
 
         const product = await Product.findOne({_id: productId})
 
         if(!product) return null
 
         return product
+    } catch (error: unknown) {
+        let errorMessage = "Something Went Wrong!!!"
+
+        if(error instanceof Error) 
+            errorMessage = error.message
+
+        throw new Error(`Failed to create/update product: ${errorMessage}`)
+    }
+}
+
+export async function getAllProducts() {
+    try {
+        await connectToDB()
+
+        const products = await Product.find()
+
+        return products
+    } catch (error: unknown) {
+        let errorMessage = "Something Went Wrong!!!"
+
+        if(error instanceof Error) 
+            errorMessage = error.message
+
+        throw new Error(`Failed to create/update product: ${errorMessage}`)
+    }
+}
+
+export async function getSimilarProducts(productId: string) {
+    try {
+        await connectToDB()
+
+        const currentProduct = await Product.findById(productId)
+
+        if(!currentProduct) return null
+
+        const similarProducts = await Product.find({
+            _id: {$ne: productId},
+            category: currentProduct.category
+        }).limit(3)
+
+        return similarProducts
     } catch (error: unknown) {
         let errorMessage = "Something Went Wrong!!!"
 
