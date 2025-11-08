@@ -5,6 +5,8 @@ import Product from "../../models/product.model";
 import { scrapeAmazonProduct } from "../scraper";
 import { connectToDB } from "../scraper/mongoose";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
+import { User } from "../../types";
+import { generateEmailBody, sendEmail } from "../nodemailer";
 
 export async function scrapeAndStoreProduct(productUrl: string){
     if(!productUrl) return;
@@ -113,5 +115,29 @@ export async function getSimilarProducts(productId: string) {
 }
 
 export async function addUserEmailToProduct(productId: string, email: string){
-    console.log("addUserEmailToProduct")
+    try {
+        const product = await Product.findById(productId)
+
+        if(!product) return
+
+        const userExists = product.users.some((user: User) => user.email === email)
+
+        if(!userExists) {
+            product.users.push({email})
+
+            await product.save()
+
+            const emailContent = await  generateEmailBody(product, "WELCOME")
+
+            await sendEmail(emailContent, [email])
+        }
+
+    } catch (error: unknown) {
+        let errorMessage = "Something Went Wrong!!!"
+
+        if(error instanceof Error) 
+            errorMessage = error.message
+
+        throw new Error(`Failed to add user email to product: ${errorMessage}`)
+    }
 }
