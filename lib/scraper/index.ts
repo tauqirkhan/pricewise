@@ -61,10 +61,9 @@ export async function scrapeAmazonProduct(url: string){
         //always give second last subcategory
         const category = categoryCollection.eq(categoryCollection.length - 2).text().trim()
 
-        const ratingCount = $('#acrCustomerReviewText.a-size-base').eq(0).text().replace(/[^\d.]/g, '')
+        const ratingCount = Number($('#acrCustomerReviewText.a-size-base').eq(0).text().replace(/[^\d.]/g, ''))
 
-        const ratingStars = $('#acrPopover .a-size-base.a-color-base').eq(0).text().trim()
-
+        const ratingStars = Number($('#acrPopover .a-size-base.a-color-base').eq(0).text().trim())
         const description = extractDescription($)
         
         // console.log("title: ", title)

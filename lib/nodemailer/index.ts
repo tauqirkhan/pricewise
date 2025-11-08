@@ -82,12 +82,13 @@ export async function generateEmailBody(
     return { subject, body }
 }
 
+// somehow process.env.USERNAME & process.env.password is giving error
 const transporter = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
     auth: {
-        user: process.env.USERNAME,
-        pass: process.env.PASSWORD
+        user: "d164f04fc23163",
+        pass: "df0790ac088c0b"
     }
 });
 
