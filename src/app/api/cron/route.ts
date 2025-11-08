@@ -6,6 +6,10 @@ import { getAveragePrice, getEmailNotifType, getHighestPrice, getLowestPrice } f
 import Product from "../../../../models/product.model"
 import { User } from "../../../../types"
 
+export const maxDuration = 300
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET() {
     try {
         connectToDB()
@@ -19,7 +23,7 @@ export async function GET() {
             products.map(async( currentProduct) => {
                 const scrapeProduct = await scrapeAmazonProduct(currentProduct.url)
 
-                if(!scrapeProduct) throw new Error("No Product Found")
+                if(!scrapeProduct) return
 
                 const updatedPriceHistory = [
                     ...currentProduct.priceHistory,
@@ -60,6 +64,7 @@ export async function GET() {
                 return updatedProduct
             })
         )
+
         return NextResponse.json({
             message: 'Ok',
             data: updatedProducts
@@ -71,6 +76,6 @@ export async function GET() {
         if(error instanceof Error) 
             errorMessage = error.message
 
-        throw new Error(`Failed to create/update product: ${errorMessage}`)
+        throw new Error(`Failed to get all products: ${errorMessage}`)
     }
 }
