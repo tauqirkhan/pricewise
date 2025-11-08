@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { formatNumber } from '../../../../lib/utils'
 import PriceInfoCart from '../../../../components/PriceInfoCart'
 import ProductCart from '../../../../components/ProductCart'
+import Modal from '../../../../components/Modal'
 
 type Props = {
   params: Promise<{
@@ -21,7 +22,7 @@ const ProductDetails = async({params}: Props) => {
   if(!product) redirect("/")
 
   const similarProducts = await getSimilarProducts(id)
-
+ 
   return (
     <div className="product-container">
       <div className="flex gap-28 xl:flex-row flex-col">
@@ -155,7 +156,7 @@ const ProductDetails = async({params}: Props) => {
             </div>
           </div>
 
-          Modal
+          <Modal productId={id}/>
         </div>
       </div>
 

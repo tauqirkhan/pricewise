@@ -111,3 +111,7 @@ export async function getSimilarProducts(productId: string) {
         throw new Error(`Failed to create/update product: ${errorMessage}`)
     }
 }
+
+export async function addUserEmailToProduct(productId: string, email: string){
+    console.log("addUserEmailToProduct")
+}
