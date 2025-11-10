@@ -69,7 +69,7 @@ export async function getProductById(productId: string){
         if(error instanceof Error) 
             errorMessage = error.message
 
-        throw new Error(`Failed to create/update product: ${errorMessage}`)
+        throw new Error(`Failed to get product by ID: ${errorMessage}`)
     }
 }
 
@@ -86,7 +86,7 @@ export async function getAllProducts() {
         if(error instanceof Error) 
             errorMessage = error.message
 
-        throw new Error(`Failed to create/update product: ${errorMessage}`)
+        throw new Error(`Failed to get all products: ${errorMessage}`)
     }
 }
 
@@ -110,7 +110,7 @@ export async function getSimilarProducts(productId: string) {
         if(error instanceof Error) 
             errorMessage = error.message
 
-        throw new Error(`Failed to create/update product: ${errorMessage}`)
+        throw new Error(`Failed to get similar products: ${errorMessage}`)
     }
 }
 

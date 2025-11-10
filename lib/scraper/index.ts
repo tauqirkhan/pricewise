@@ -1,7 +1,9 @@
+"use server"
+
 import axios from "axios"
 import * as cheerio from "cheerio"
 import { extractCurrency, extractDescription, extractPrice } from "../utils"
-import { PriceHistoryItem } from "../../types"
+import { PriceHistoryItem, Product as ProductType } from "../../types"
 
 export async function scrapeAmazonProduct(url: string){
     if(!url) return
@@ -77,7 +79,7 @@ export async function scrapeAmazonProduct(url: string){
         // console.log("ratingCount: ", ratingCount)
         // console.log("ratingStars: ", ratingStars)
 
-        const data = {
+        const data: ProductType = {
             url,
             currency: currency || '$',
             image: imageUrls[0],
